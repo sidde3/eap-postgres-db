@@ -24,3 +24,29 @@ This repository provides a working reference which includes:
 An Openshift build process clones this git repo into a build pod that performs a maven build of the example servlet.  The example servlet artifact and Oracle JDBC driver are copied into the image during the build.  The JBoss EAP configuration file (`/opt/eap/standalone/configuration/standalone-openshift.xml`) that is provided in the JBoss EAP for Openshift image is updated to include the Oracle JDBC driver configuration.  The Openshift build process produces a container image to be used directly in application pods or as a base image for application pods to derive from.
 
 When the resulting container image is used to produce an application pod, the pod is configured at deploy time to include datasource settings provided by the `datasources.env` [file](https://github.com/travisrogers05/eap-oracle-db/blob/master/configuration/datasources.env).
+
+
+## Example container creation
+
+
+1.  Clone this repository to a local workspace.
+
+  ```
+  git clone https://github.com/travisrogers05/eap-oracle-db
+  ```
+
+2.  [Download and install the Oracle JDBC driver.](http://www.oracle.com/technetwork/database/application-development/jdbc/downloads).  Install the JDBC driver JAR file under the `extensions/modules/com/oracle/main` directory.  Modify the JAR file name in the [extensions/modules/com/oracle/main/module.xml](https://github.com/travisrogers05/eap-oracle-db/blob/master/extensions/modules/com/oracle/main/module.xml#L3), if needed.
+
+
+3.  Create a new Openshift project (replace **project-name** with a name you choose)
+
+  ```
+  oc new-project <project-name>
+  ```
+
+4.  Create an application pod in the project, adding the files and settings from this repository into a created container (replace **app-name** with a name you choose):
+
+  ```
+  oc process openshift//eap71-basic-s2i APPLICATION_NAME=<app-name> SOURCE_REPOSITORY_URL=https://github.com/travisrogers05/eap-oracle-db SOURCE_REPOSITORY_REF=master CONTEXT_DIR="" | oc create -f -
+  ```
+
