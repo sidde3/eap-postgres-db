@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.redhat.example</groupId>
-	<artifactId>eap-oracle-db</artifactId>
+	<artifactId>eap-postgres-db</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Java EE webapp project</name>
